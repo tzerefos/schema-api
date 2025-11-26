@@ -143,6 +143,7 @@ class TaskService:
     def _check_if_update_task(self, task):
         if task.pending and \
                 not settings.DISABLE_TASK_SCHEDULING and \
+                task.latest_update is not None and \
                 (task.latest_update - timezone.now()).seconds > settings.TASK_API['DB_TASK_STATUS_TTL_SECONDS']:
             task_api_class = taskapis.get_task_api_class()
             task_api = task_api_class()
